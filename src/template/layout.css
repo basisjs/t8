@@ -1,0 +1,43 @@
+HTML,
+BODY
+{
+  height: 100%;
+  padding: 0;
+  margin: 0;
+
+  background: white;
+  color: black;
+  font-size: small;
+}
+
+.view
+{  
+}
+
+.source
+{
+  margin: 0;
+  padding: 8px;
+  float: left;
+  border: none;
+  border-right: 1px solid #AAA;
+  background: #FAFAFA;
+  box-sizing: border-box;
+  width: 50vw;
+  max-width: 450px;
+  height: 100vh;
+  outline: none;
+  resize: none;
+
+  white-space: pre-wrap;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+  line-height: 16px;
+}
+.flow
+{
+  height: 100vh;
+  overflow: auto;
+  padding: 8px;
+  box-sizing: border-box;
+}

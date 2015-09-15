@@ -1,0 +1,16 @@
+{
+  "name": "t8",
+  "title": "Value dependency inspector",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "basisjs": "basisjs/basisjs#1.5"
+  },
+  "devDependencies": {
+    "basisjs-tools": "basisjs/basisjs-tools",
+    "basisjs-tools-instrumenter": "basisjs/basisjs-tools-instrumenter"
+  },
+  "scripts": {
+    "start": "basis server"
+  }
+}
