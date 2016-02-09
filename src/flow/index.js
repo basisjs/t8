@@ -1,5 +1,6 @@
 var Node = require('basis.ui').Node;
 var highlight = require('basis.utils.highlight').highlight;
+var fileAPI = require('../../../api/file.js');
 
 function escapeString(value){
   return value
@@ -48,6 +49,12 @@ var FlowNode = Node.subclass({
           return '<div>' + line + '</div>';
         }
       });
+    }
+  },
+  action: {
+    open: function(){
+      if (this.loc)
+        fileAPI.openFile(this.loc);
     }
   }
 });

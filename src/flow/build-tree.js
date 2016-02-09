@@ -1,7 +1,8 @@
-var fnInfo = require('basis.utils.info').fn;
+// var fnInfo = require('basis.utils.info').fn;
+var fnInfo = require('devpanel').inspectBasis.require('basis.utils.info').fn;
 
-function inspectValue(value, map){
-  var sourceInfo = basis.dev.getInfo(value, 'sourceInfo');
+function inspectValue(value, resolver, map){
+  var sourceInfo = resolver(value, 'sourceInfo');
 
   if (!map)
     map = [];
@@ -16,7 +17,8 @@ function inspectValue(value, map){
     return [{
       source: true,
       marker: marker,
-      value: value
+      value: value,
+      loc: resolver(value, 'loc')
     }];
   }
 
@@ -27,12 +29,12 @@ function inspectValue(value, map){
       split: true,
       childNodes: sourceInfo.source.map(function(value){
         return {
-          childNodes: inspectValue(value, map)
+          childNodes: inspectValue(value, resolver, map)
         };
       })
-    }]
+    }];
   else
-    nodes = inspectValue(sourceInfo.source, map);
+    nodes = inspectValue(sourceInfo.source, resolver, map);
 
   var fn = sourceInfo.transform;
   var info = fn ? fnInfo(fn) : { source: null };
@@ -42,14 +44,14 @@ function inspectValue(value, map){
     events: sourceInfo.events,
     transform: info.getter || info.source,
     value: value.value,
-    loc: basis.dev.getInfo(value, 'loc')
+    loc: resolver(value, 'loc')
   });
 
   return nodes;
 }
 
-module.exports = function buildTree(value){
-  var result = inspectValue(value);
+module.exports = function buildTree(value, resolver){
+  var result = inspectValue(value, resolver || basis.dev.getInfo);
 
   if (result.length)
     result[result.length - 1].initial = true;
