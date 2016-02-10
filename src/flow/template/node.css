@@ -176,3 +176,19 @@
   color: #AA8844;
   font-weight: bold;
 }
+
+.loc-wrapper
+{
+  color: #ccc;
+}
+
+.loc
+{
+  text-decoration: underline;
+  cursor: pointer;
+  color: #999;
+}
+.loc:hover
+{
+  color: #333;
+}
