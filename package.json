@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "basisjs": "basisjs/basisjs#1.5"
+    "basisjs": "1.6.1"
   },
   "devDependencies": {
     "basisjs-tools": "basisjs/basisjs-tools",
