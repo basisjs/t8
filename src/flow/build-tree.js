@@ -1,4 +1,5 @@
 var fnInfo = require('basis.utils.info').fn;
+var highlight = require('basis.utils.highlight').highlight;
 
 function inspectValue(value, resolvers, map){
   var sourceInfo = resolvers.getInfo(value, 'sourceInfo');
@@ -36,12 +37,19 @@ function inspectValue(value, resolvers, map){
     nodes = inspectValue(sourceInfo.source, resolvers, map);
 
   var fn = sourceInfo.transform;
+  var fnLoc = resolvers.getInfo(fn, 'loc');
   var info = fn ? resolvers.fnInfo(fn) : { source: null };
 
   nodes.push({
     type: sourceInfo.type,
     events: sourceInfo.events,
-    transform: info.getter || info.source,
+    transform: info.getter || (fnLoc
+      ? resolvers.getColoredSource(fnLoc, 0, 0, 20)
+      : highlight(String(info.source), 'js', {
+          wrapper: function(line){
+            return '<div>' + line + '</div>';
+          }
+        })),
     value: value.value,
     loc: resolvers.getInfo(value, 'loc')
   });
@@ -52,7 +60,8 @@ function inspectValue(value, resolvers, map){
 module.exports = function buildTree(value, resolvers){
   var result = inspectValue(value, resolvers || {
     getInfo: basis.dev.getInfo,
-    fnInfo: fnInfo
+    fnInfo: fnInfo,
+    getColoredSource: require('basis.utils.source').getColoredSource
   });
 
   if (result.length)

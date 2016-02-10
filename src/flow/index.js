@@ -1,5 +1,4 @@
 var Node = require('basis.ui').Node;
-var highlight = require('basis.utils.highlight').highlight;
 
 function escapeString(value){
   return value
@@ -42,13 +41,7 @@ var FlowNode = Node.subclass({
           return String(value);
       }
     },
-    fn: function(node){
-      return highlight(String(node.transform), 'js', {
-        wrapper: function(line){
-          return '<div>' + line + '</div>';
-        }
-      });
-    }
+    fn: 'transform'
   },
   action: {
     open: function(){
