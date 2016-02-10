@@ -1,8 +1,7 @@
-// var fnInfo = require('basis.utils.info').fn;
-var fnInfo = require('devpanel').inspectBasis.require('basis.utils.info').fn;
+var fnInfo = require('basis.utils.info').fn;
 
-function inspectValue(value, resolver, map){
-  var sourceInfo = resolver(value, 'sourceInfo');
+function inspectValue(value, resolvers, map){
+  var sourceInfo = resolvers.getInfo(value, 'sourceInfo');
 
   if (!map)
     map = [];
@@ -18,7 +17,7 @@ function inspectValue(value, resolver, map){
       source: true,
       marker: marker,
       value: value,
-      loc: resolver(value, 'loc')
+      loc: resolvers.getInfo(value, 'loc')
     }];
   }
 
@@ -29,29 +28,32 @@ function inspectValue(value, resolver, map){
       split: true,
       childNodes: sourceInfo.source.map(function(value){
         return {
-          childNodes: inspectValue(value, resolver, map)
+          childNodes: inspectValue(value, resolvers, map)
         };
       })
     }];
   else
-    nodes = inspectValue(sourceInfo.source, resolver, map);
+    nodes = inspectValue(sourceInfo.source, resolvers, map);
 
   var fn = sourceInfo.transform;
-  var info = fn ? fnInfo(fn) : { source: null };
+  var info = fn ? resolvers.fnInfo(fn) : { source: null };
 
   nodes.push({
     type: sourceInfo.type,
     events: sourceInfo.events,
     transform: info.getter || info.source,
     value: value.value,
-    loc: resolver(value, 'loc')
+    loc: resolvers.getInfo(value, 'loc')
   });
 
   return nodes;
 }
 
-module.exports = function buildTree(value, resolver){
-  var result = inspectValue(value, resolver || basis.dev.getInfo);
+module.exports = function buildTree(value, resolvers){
+  var result = inspectValue(value, resolvers || {
+    getInfo: basis.dev.getInfo,
+    fnInfo: fnInfo
+  });
 
   if (result.length)
     result[result.length - 1].initial = true;
