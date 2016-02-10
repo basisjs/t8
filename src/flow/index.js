@@ -1,6 +1,10 @@
 var Node = require('basis.ui').Node;
 var highlight = require('basis.utils.highlight').highlight;
-var fileAPI = require('../../../api/file.js');
+// FIXME path to api/file.js
+// var fileAPI = require('devpanel').inspectBasis.require('devpanel.api.file');
+var fileAPI = {
+  openFile: require('devpanel').inspectBasis.appCP.openFile
+};
 
 function escapeString(value){
   return value
