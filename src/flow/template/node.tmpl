@@ -2,6 +2,7 @@
 <b:isolate/>
 <b:define name="isSource" type="bool"/>
 <b:define name="initial" type="bool"/>
+<b:define name="loc" type="bool"/>
 
 <div class="node node_{isSource}">
   <div class="transition" b:hide="{isSource}">
@@ -13,7 +14,7 @@
   </div>
   <span class="dot dot_{isSource} dot_{initial}"/>
   <span class="value">
-    {value} (<span style="text-decoration: underline;" event-click="open">{loc}</span>)
+    {value} <span class="loc-wrapper">(<span class="{loc}" event-click="open">{loc}</span>)</span>
     <span class="marker" b:show="{marker}">({marker})</span>
     <span class="className className_{isSource}">{className}</span>
   </span>
